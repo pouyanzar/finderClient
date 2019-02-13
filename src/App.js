@@ -15,7 +15,7 @@ class App extends Component {
             category:'Select a category',
             year:'Select a year',
             parts:[],
-            baseUrl: 'http://localhost:8080',
+            baseUrl: 'https://qfpfinder.herokuapp.com',
             relatedParts:'',
             OEM:'',
             qfpp:''
