@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import Search from './Search';
 import PartList from './PartList';
-import {Redirect} from 'react-dom';
 import PartCard from './PartCard';
 import {BrowserRouter as Router, Route, Switch, Link} from 'react-router-dom'
 class App extends Component {
@@ -123,7 +122,6 @@ class App extends Component {
     return (
       <div className="App">
       <Router>
-            {/* <Route path='/' exact render={()=> */}
             <div>
             <Search models={this.state.models}
                     model = {this.state.model}
