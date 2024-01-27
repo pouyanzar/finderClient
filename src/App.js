@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Search from "./Search";
 import PartList from "./PartList";
-import PartCard from "./PartCard";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 const App = () => {
   const [make, setMake] = useState("Select a Make");
   const [models, setModels] = useState(["Select a Model"]);
@@ -12,7 +11,8 @@ const App = () => {
   const [year, setYear] = useState("Select a year");
   const [parts, setParts] = useState([]);
   const [OEM, setOEM] = useState("");
-  const baseUrl = "https://finder-server.onrender.com";
+  const baseUrl = "http://localhost:8080";
+  // const baseUrl = "https://finder-server.onrender.com";
 
   const init = (body) => {
     const init = {
@@ -92,18 +92,9 @@ const App = () => {
             submitHandler={submitHandler}
             oemSubmitHandler={oemSubmitHandler}
             oemMaker={OEMMaker}
-            // qfppMaker={qfppMaker}
-            // qfppSubmitHandler={qfppSubmitHandler}
           />
 
           <PartList result={parts} />
-
-          {/* <Switch>
-            <Route
-              path="/:qfpp"
-              render={(props) => <PartCard id={props.match.url} />}
-            />
-          </Switch> */}
         </div>
       </Router>
     </div>

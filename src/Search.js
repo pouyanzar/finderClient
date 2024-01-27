@@ -121,8 +121,8 @@ class Search extends React.Component {
               onChange={this.modeler}
               value={this.props.model}
             >
-              {this.props.models.map((model) => (
-                <option key="model" value={model}>
+              {[...new Set(this.props.models)].map((model, i) => (
+                <option key={i} value={model}>
                   {model}
                 </option>
               ))}
