@@ -1,38 +1,20 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import "./App.css";
 import Search from "./Search";
 import PartList from "./PartList";
 import PartCard from "./PartCard";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      make: "Select a Make",
-      models: ["Select a Model"],
-      model: "Select a Model",
-      category: "Select a category",
-      year: "Select a year",
-      parts: [],
-      baseUrl: "https://finder-server.onrender.com",
-      relatedParts: "",
-      OEM: "",
-      qfpp: "",
-    };
+const App = () => {
+  const [make, setMake] = useState("Select a Make");
+  const [models, setModels] = useState(["Select a Model"]);
+  const [model, setModel] = useState("Select a Model");
+  const [category, setCategory] = useState("Select a category");
+  const [year, setYear] = useState("Select a year");
+  const [parts, setParts] = useState([]);
+  const [OEM, setOEM] = useState("");
+  const baseUrl = "https://finder-server.onrender.com";
 
-    this.init = this.init.bind(this);
-    this.maker = this.maker.bind(this);
-    this.modeler = this.modeler.bind(this);
-    this.catMaker = this.catMaker.bind(this);
-    this.yearBuilder = this.yearBuilder.bind(this);
-    this.OEMMaker = this.OEMMaker.bind(this);
-    this.submitHandler = this.submitHandler.bind(this);
-    this.oemSubmitHandler = this.oemSubmitHandler.bind(this);
-    this.qfppMaker = this.qfppMaker.bind(this);
-    this.qfppSubmitHandler = this.qfppSubmitHandler.bind(this);
-  }
-
-  init = (body) => {
+  const init = (body) => {
     const init = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -41,110 +23,91 @@ class App extends Component {
     return init;
   };
 
-  maker = (make) => {
-    this.setState({ make: make });
+  const maker = (make) => {
+    setMake(make);
   };
 
-  modeler = (model) => {
-    this.setState({ model: model });
+  const modeler = (model) => {
+    setModel(model);
   };
 
-  catMaker = (category) => {
-    this.setState({ category: category });
+  const catMaker = (category) => {
+    setCategory(category);
   };
 
-  yearBuilder = (year) => {
-    this.setState({ year: year });
+  const yearBuilder = (year) => {
+    setYear(year);
   };
 
-  submitHandler = (e) => {
+  const submitHandler = (e) => {
     e.preventDefault();
     let body = {
-      make: this.state.make,
-      model: this.state.model,
-      category: this.state.category,
-      year: this.state.year,
+      make,
+      model,
+      category,
+      year,
     };
 
-    fetch(`${this.state.baseUrl}/part`, this.init(body))
+    fetch(`${baseUrl}/part`, init(body))
       .then((res) => res.json())
-      .then((parts) => this.setState({ parts: parts }));
+      .then((parts) => setParts(parts));
   };
 
-  OEMMaker = (oem) => {
-    this.setState({ OEM: oem });
+  const OEMMaker = (oem) => {
+    setOEM(oem);
   };
 
-  oemSubmitHandler = (e) => {
+  const oemSubmitHandler = (e) => {
     e.preventDefault();
     let body = {
-      OEM: this.state.OEM,
+      OEM: OEM,
     };
 
-    fetch(`${this.state.baseUrl}/oem`, this.init(body))
+    fetch(`${baseUrl}/oem`, init(body))
       .then((res) => res.json())
-      .then((parts) => this.setState({ parts: parts }));
+      .then((parts) => setParts(parts));
   };
 
-  qfppMaker = (qfpp) => {
-    this.setState({ qfpp: qfpp });
-  };
-  qfppSubmitHandler = (e) => {
-    e.preventDefault();
-    let body = {
-      qfpp: this.state.qfpp,
-    };
-
-    fetch(`${this.state.baseUrl}/qfpp`, this.init(body))
+  useEffect(() => {
+    let body = { make };
+    fetch(`${baseUrl}/make`, init(body))
       .then((res) => res.json())
-      .then((parts) => this.setState({ parts: parts }));
-  };
+      .then((data) => setModels(data));
+  }, [make]);
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.make !== this.state.make) {
-      let body = { make: this.state.make };
+  return (
+    <div className="App">
+      <Router>
+        <div>
+          <Search
+            models={models}
+            model={model}
+            make={make}
+            year={year}
+            category={category}
+            maker={maker}
+            modeler={modeler}
+            catMaker={catMaker}
+            yearBuilder={yearBuilder}
+            submitHandler={submitHandler}
+            oemSubmitHandler={oemSubmitHandler}
+            oemMaker={OEMMaker}
+            // qfppMaker={qfppMaker}
+            // qfppSubmitHandler={qfppSubmitHandler}
+          />
 
-      fetch(`${this.state.baseUrl}/make`, this.init(body))
-        .then((res) => res.json())
-        .then((data) => this.setState({ models: data }));
-    }
-  }
+          <PartList result={parts} />
 
-  render() {
-    return (
-      <div className="App">
-        <Router>
-          <div>
-            <Search
-              models={this.state.models}
-              model={this.state.model}
-              make={this.state.make}
-              year={this.state.year}
-              category={this.state.category}
-              maker={this.maker}
-              modeler={this.modeler}
-              catMaker={this.catMaker}
-              yearBuilder={this.yearBuilder}
-              submitHandler={this.submitHandler}
-              oemSubmitHandler={this.oemSubmitHandler}
-              oemMaker={this.OEMMaker}
-              qfppMaker={this.qfppMaker}
-              qfppSubmitHandler={this.qfppSubmitHandler}
+          {/* <Switch>
+            <Route
+              path="/:qfpp"
+              render={(props) => <PartCard id={props.match.url} />}
             />
-
-            <PartList result={this.state.parts} />
-
-            <Switch>
-              <Route
-                path="/:qfpp"
-                render={(props) => <PartCard id={props.match.url} />}
-              />
-            </Switch>
-          </div>
-        </Router>
-      </div>
-    );
-  }
-}
+          </Switch> */}
+        </div>
+      </Router>
+    </div>
+  );
+};
 
 export default App;
