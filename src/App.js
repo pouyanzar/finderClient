@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Search from "./Search";
 import PartList from "./PartList";
-import { BrowserRouter as Router } from "react-router-dom";
 const App = () => {
   const [make, setMake] = useState("Select a Make");
   const [models, setModels] = useState(["Select a Model"]);
@@ -47,10 +46,12 @@ const App = () => {
       category,
       year,
     };
-
     fetch(`${baseUrl}/part`, init(body))
       .then((res) => res.json())
-      .then((parts) => setParts(parts));
+      .then((parts) => {
+        console.log(parts);
+        setParts(parts);
+      });
   };
 
   const OEMMaker = (oem) => {
@@ -69,7 +70,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    let body = { make };
+    let body = { make, category };
     fetch(`${baseUrl}/make`, init(body))
       .then((res) => res.json())
       .then((data) => setModels(data));
@@ -77,26 +78,26 @@ const App = () => {
 
   return (
     <div className="App">
-      <Router>
-        <div>
-          <Search
-            models={models}
-            model={model}
-            make={make}
-            year={year}
-            category={category}
-            maker={maker}
-            modeler={modeler}
-            catMaker={catMaker}
-            yearBuilder={yearBuilder}
-            submitHandler={submitHandler}
-            oemSubmitHandler={oemSubmitHandler}
-            oemMaker={OEMMaker}
-          />
+      {/* <Router> */}
+      <div>
+        <Search
+          models={models}
+          model={model}
+          make={make}
+          year={year}
+          category={category}
+          maker={maker}
+          modeler={modeler}
+          catMaker={catMaker}
+          yearBuilder={yearBuilder}
+          submitHandler={submitHandler}
+          oemSubmitHandler={oemSubmitHandler}
+          oemMaker={OEMMaker}
+        />
 
-          <PartList result={parts} />
-        </div>
-      </Router>
+        <PartList result={parts} />
+      </div>
+      {/* </Router> */}
     </div>
   );
 };

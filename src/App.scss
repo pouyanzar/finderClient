@@ -1,102 +1,75 @@
 body {
-  background-color:moccasin;
-
+  background-color: moccasin;
 }
 
 .App {
   text-align: center;
-  margin-top: 5rem;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.form{
-
-  display:flex;
-  // flex-direction:column;
   align-items: baseline;
   justify-content: center;
-  border-bottom:5px #F68F54 solid;
-  margin-top: 5rem;
-  padding-bottom:5rem;
+  border-bottom: 5px #f68f54 solid;
+  margin-top: 1rem;
+  padding: 1rem;
 
-  &__label{
-    color: #F68F54;
-    font-weight:bold;
+  &__label {
+    color: #f68f54;
+    font-weight: bold;
     margin-bottom: 1rem;
   }
 
-  &__field{
+  &__field {
     width: 10rem;
     height: 2rem;
     margin-left: 0.5rem;
-    margin-right:2rem;
+    margin-right: 2rem;
     border-radius: 20px;
     font-size: 1rem;
-    font-weight:bold;
+    font-weight: bold;
     background-color: moccasin;
     color: darkred;
-    border: 1px solid #F68F54;
+    border: 1px solid #f68f54;
   }
 
-  &__button{
+  &__input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  &__button {
     background-color: darkred;
     color: #ffffff;
     width: 10rem;
-    height:2rem;
-    font-weight:bold;
-    border-radius:20px;
-    // margin-top: 2rem;
+    height: 2rem;
+    font-weight: bold;
+    border-radius: 20px;
+    margin: auto;
   }
 }
 
-
-.part{
-  margin: 2.5rem auto;
-  display:flex;
+.part {
+  margin: 2.5rem;
+  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  &__img{
-    width:150px;
-    height:150px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  &__title {
+    font-weight: bold;
+  }
+  &__img {
+    width: 150px;
+    height: 150px;
     object-fit: content;
-    margin-bottom:2.5rem;
+    margin-bottom: 2.5rem;
   }
 
-  &__table{
-    td{
-      border: 1px #F68F54 solid;
+  &__table {
+    td {
+      border: 1px #f68f54 solid;
     }
   }
-
 }
-
